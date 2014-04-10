@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
 		printf(" with fitness %f\n", i, sheep[i].bits, sheep[i].fitness);
 	}
 	
+	int howLongThisShitTook = 0;
 	
 	
 	
