@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
 	int j= 0;
 	struct subject sheep[populationSize];
 	
+	//make the Adam&Eve generation
 	for(i = 0; i < populationSize; i++)
 	{
 		for(j = 0; j < BITLENGTH; j++)
