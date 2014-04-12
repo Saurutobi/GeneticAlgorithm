@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 #define BITLENGTH 20
+#define MAXGENERATIONS 400
 
 struct subject
 {
@@ -14,7 +15,7 @@ struct subject
 };
 
 float assignFitness(int [], float);
-void makeMeABaby(float, struct subject *, int *);
+void makeMeABaby(float, struct subject *, int &);
 
 int main(int argc, char *argv[])
 {
@@ -71,32 +72,49 @@ int main(int argc, char *argv[])
 			}
 		}
 		
-		double fuckSpawnPopulationSize = 0;
+		unsigned long int fuckSpawnPopulationSize = 0;
 		
-		int* fuckSpawn1Bits = malloc(sizeof(int) * BITLENGTH);
-		int* fuckSpawn2Bits = malloc(sizeof(int) * BITLENGTH);
+		int fuckSpawn1Bits[BITLENGTH];
+		int fuckSpawn2Bits[BITLENGTH];
 		
 		while(fuckSpawnPopulationSize < populationSize)
 		{
 			makeMeABaby(totalFitness, sheep, fuckSpawn1Bits);
 			makeMeABaby(totalFitness, sheep, fuckSpawn2Bits);
-			fuckSpawnPopulationSize++;
+			
+			//crossover(1,2)
+			
+			//mutate 1
+			//mutate 2
+			
+			struct subject temp;
+			temp.bits = fuckSpawn1Bits;
+			temp.fitness = 0.0f;
+			fuckSpawn[fuckSpawnPopulationSize++] = temp;
+			temp.bits = fuckSpawn2Bits;
+			fuckSpawn[fuckSpawnPopulationSize++] = temp;
+			
+			
+			
+			
 		}
 		
-		free(fuckSpawn1Bits);
-		free(fuckSpawn1Bits);
-		
-		
-		
-		
-		
-		if(totalFitness > 100.0f)
+		for(i = 0; i < populationSize; i++)
 		{
-			printf("done\n");
-			return 0;
+			sheep[i] = fuckSpawn[i];
 		}
-	
-	
+		
+		free(fuckSpawn1Bits);
+		free(fuckSpawn2Bits);
+		
+		howLongThisShitTook++;
+		
+		if(howLongThisShitTook > MAXGENERATIONS)
+		{
+			printf("Did not find a solution in max allowable runs");
+			solutionFound = 1;
+			
+		}
 	}
 	
 	return 0;
@@ -107,7 +125,7 @@ float assignFitness(int bits[], float target)
 	return 1.0f;
 }
 
-void makeMeABaby(float totalFitness, struct subject *test, int * meh)
+void makeMeABaby(float totalFitness, struct subject *test, int & meh)
 {
 	int i = 0;
 	for(i = 0; i < BITLENGTH; i++)
