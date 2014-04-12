@@ -27,7 +27,7 @@ using std::string;
 //----------------------------------------------------------------------------------------
 //
 //	define a data structure which will define a chromosome
-//
+//	
 //----------------------------------------------------------------------------------------
 struct chromo_typ
 {
@@ -64,113 +64,110 @@ int main()
 	//seed the random number generator
 	srand((int)time(NULL));
 
-  //just loop endlessly until user gets bored :0)
-  while (true)
-  {
-    //storage for our population of chromosomes.
-    chromo_typ Population[POP_SIZE];
+	//just loop endlessly until user gets bored :0)
+	while (true)
+	{
+		//storage for our population of chromosomes.
+		chromo_typ Population[POP_SIZE];
 
-	  //get a target number from the user. (no error checking)
-	  float Target;
-	  cout << "\nInput a target number: ";
-	  cin >> Target;
-    cout << endl << endl;
+		//get a target number from the user. (no error checking)
+		float Target;
+		cout << "\nInput a target number: ";
+		cin >> Target;
+		cout << endl << endl;
 	  
-	  //first create a random population, all with zero fitness.
-	  for (int i=0; i<POP_SIZE; i++)
-	  {
-		  Population[i].bits	  = GetRandomBits(CHROMO_LENGTH);
-		  Population[i].fitness = 0.0f;
-	  }
+		//first create a random population, all with zero fitness.
+		for (int i=0; i<POP_SIZE; i++)
+		{
+			Population[i].bits	  = GetRandomBits(CHROMO_LENGTH);
+			Population[i].fitness = 0.0f;
+		}
 
-	  int GenerationsRequiredToFindASolution = 0;
+		int GenerationsRequiredToFindASolution = 0;
 
-	  //we will set this flag if a solution has been found
-	  bool bFound = false;
+		//we will set this flag if a solution has been found
+		bool bFound = false;
 
-	  //enter the main GA loop
-	  while(!bFound)
-	  {
-		  //this is used during roulette wheel sampling
-		  float TotalFitness = 0.0f;
+		//enter the main GA loop
+		while(!bFound)
+		{
+			//this is used during roulette wheel sampling
+			float TotalFitness = 0.0f;
 
-		  // test and update the fitness of every chromosome in the 
-      // population
-		  for (int i=0; i<POP_SIZE; i++)
-		  {
-			  Population[i].fitness = AssignFitness(Population[i].bits, Target);
+			// test and update the fitness of every chromosome in the 
+			// population
+			for (int i=0; i<POP_SIZE; i++)
+			{
+				Population[i].fitness = AssignFitness(Population[i].bits, Target);
 
-			  TotalFitness += Population[i].fitness;
-		  }
+				TotalFitness += Population[i].fitness;
+			}
 
-		  // check to see if we have found any solutions (fitness will be 999)
-		  for (i=0; i<POP_SIZE; i++)
-		  {
-			  if (Population[i].fitness == 999.0f)
-			  {
-          cout << "\nSolution found in " << GenerationsRequiredToFindASolution << " generations!" << endl << endl;;
+			// check to see if we have found any solutions (fitness will be 999)
+			for (i=0; i<POP_SIZE; i++)
+			{
+				if (Population[i].fitness == 999.0f)
+				{
+					cout << "\nSolution found in " << GenerationsRequiredToFindASolution << " generations!" << endl << endl;;
+					PrintChromo(Population[i].bits);
+					bFound = true;
+					break;
+				}
+			}
 
-				  PrintChromo(Population[i].bits);
-
-				  bFound = true;
-
-          break;
-			  }
-		  }
-
-		  // create a new population by selecting two parents at a time and creating offspring
-      // by applying crossover and mutation. Do this until the desired number of offspring
-      // have been created. 
+			// create a new population by selecting two parents at a time and creating offspring
+			// by applying crossover and mutation. Do this until the desired number of offspring
+			// have been created. 
 		  
-		  //define some temporary storage for the new population we are about to create
-		  chromo_typ temp[POP_SIZE];
+			//define some temporary storage for the new population we are about to create
+			chromo_typ temp[POP_SIZE];
 
-		  int cPop = 0;
+			int cPop = 0;
 	  
-		  //loop until we have created POP_SIZE new chromosomes
-		  while (cPop < POP_SIZE)
-		  {
-			  // we are going to create the new population by grabbing members of the old population
-			  // two at a time via roulette wheel selection.
-			  string offspring1 = Roulette(TotalFitness, Population);
-			  string offspring2 = Roulette(TotalFitness, Population);
+			//loop until we have created POP_SIZE new chromosomes
+			while (cPop < POP_SIZE)
+			{
+				// we are going to create the new population by grabbing members of the old population
+				// two at a time via roulette wheel selection.
+				string offspring1 = Roulette(TotalFitness, Population);
+				string offspring2 = Roulette(TotalFitness, Population);
 
-        //add crossover dependent on the crossover rate
-        Crossover(offspring1, offspring2);
+				//add crossover dependent on the crossover rate
+				Crossover(offspring1, offspring2);
 
-			  //now mutate dependent on the mutation rate
-			  Mutate(offspring1);
-			  Mutate(offspring2);
+				//now mutate dependent on the mutation rate
+				Mutate(offspring1);
+				Mutate(offspring2);
 
-			  //add these offspring to the new population. (assigning zero as their
-        //fitness scores)
-			  temp[cPop++] = chromo_typ(offspring1, 0.0f);
-			  temp[cPop++] = chromo_typ(offspring2, 0.0f);
+				//add these offspring to the new population. (assigning zero as their
+				//fitness scores)
+				temp[cPop++] = chromo_typ(offspring1, 0.0f);
+				temp[cPop++] = chromo_typ(offspring2, 0.0f);
 
-		  }//end loop
+			}//end loop
 
-		  //copy temp population into main population array
-		  for (i=0; i<POP_SIZE; i++)
-      {
-			  Population[i] = temp[i];
-      }
+			//copy temp population into main population array
+			for (i=0; i<POP_SIZE; i++)
+			{
+				Population[i] = temp[i];
+			}
 
-		  ++GenerationsRequiredToFindASolution;
+			++GenerationsRequiredToFindASolution;
 
-		  // exit app if no solution found within the maximum allowable number
-		  // of generations
-		  if (GenerationsRequiredToFindASolution > MAX_ALLOWABLE_GENERATIONS)
-		  {
-			  cout << "No solutions found this run!";
+			// exit app if no solution found within the maximum allowable number
+			// of generations
+			if (GenerationsRequiredToFindASolution > MAX_ALLOWABLE_GENERATIONS)
+			{
+				cout << "No solutions found this run!";
 
-			  bFound = true;
-		  }
+				bFound = true;
+			}
 
-	  }
+		}
 
-    cout << "\n\n\n";
+		cout << "\n\n\n";
 
-  }//end while
+	}//end while
 
 	return 0;
 }
