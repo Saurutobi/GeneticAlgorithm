@@ -18,7 +18,7 @@ float assignFitness(int [], float);
 int main(int argc, char *argv[])
 {
 	srand(time(NULL));
-	int populationSize = atoi(argv[1]);
+	double populationSize = atoi(argv[1]);
 	float target = (float)atoi(argv[2]);
 	printf("Running with:\n    Population Size = %d\n    Bit Length = %d\n", populationSize, BITLENGTH);
 	
@@ -56,18 +56,40 @@ int main(int argc, char *argv[])
 			//printf("subject %d with fitness %f\n", i, sheep[i].fitness);
 			totalFitness += sheep[i].fitness;
 			//printf(" Total Fitness%f\n", totalFitness);
-			
-			
-			
-			
-			
-			
-			
-			
 		}
 	
-	
-	
+		for(i = 0; i < populationSize; i++)
+		{
+			if(sheep[i].fitness == 999.0f)
+			{
+				printf("It's been found. It took %d generations to find", howLongThisShitTook);
+				solutionFound = 1;
+				break;
+			}
+		}
+		
+		struct subject *fuckSpawn = (struct subject*)malloc(sizeof(struct subject) * populationSize);
+		
+		double fuckSpawnPopulationSize = 0;
+		
+		while(fuckSpawnPopulationSize < populationSize)
+		{
+		
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		if(totalFitness > 100.0f)
 		{
 			printf("done\n");
@@ -75,33 +97,7 @@ int main(int argc, char *argv[])
 		}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	return 0;
 }
