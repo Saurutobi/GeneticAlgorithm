@@ -8,6 +8,7 @@
 #define BITLENGTH 20
 #define GENELENGTH 4
 #define MAXGENERATIONS 400
+#define CROSSOVERRATE 0.7
 
 struct subject
 {
@@ -15,12 +16,13 @@ struct subject
 	float fitness;
 };
 
-float assignFitness(int [], float);
-void makeMeABaby(float, struct subject *, int &);
-int binToDec(int bits[]);
-int parseBits(int bits[], int* buffer);
-void printGeneSymbol(int val);
-void printChromo(int bits[]);
+float AssignFitness(int [], float);
+int BinToDec(int bits[]);
+int ParseBits(int bits[], int* buffer);
+void CrossOver(int &, int &);
+void MakeMeABaby(float, struct subject *, int &);
+void PrintChromo(int bits[]);
+void PrintGeneSymbol(int val);
 
 int main(int argc, char *argv[])
 {
@@ -61,7 +63,7 @@ int main(int argc, char *argv[])
 		
 		for(i = 0; i < populationSize; i++)
 		{
-			sheep[i].fitness = assignFitness(sheep[i].bits, target);
+			sheep[i].fitness = AssignFitness(sheep[i].bits, target);
 			printf("\n subject %d with fitness %f\n", i, sheep[i].fitness);
 			PrintChromo(sheep[i].bits);
 			totalFitness += sheep[i].fitness;
@@ -85,20 +87,26 @@ int main(int argc, char *argv[])
 		
 		while(fuckSpawnPopulationSize < populationSize)
 		{
-			makeMeABaby(totalFitness, sheep, fuckSpawn1Bits);
-			makeMeABaby(totalFitness, sheep, fuckSpawn2Bits);
+			MakeMeABaby(totalFitness, sheep, fuckSpawn1Bits);
+			MakeMeABaby(totalFitness, sheep, fuckSpawn2Bits);
 			
 			//crossover(1,2)
 			
 			//mutate 1
 			//mutate 2
 			
-			struct subject temp;
-			temp.bits = fuckSpawn1Bits;
-			temp.fitness = 0.0f;
-			fuckSpawn[fuckSpawnPopulationSize++] = temp;
-			temp.bits = fuckSpawn2Bits;
-			fuckSpawn[fuckSpawnPopulationSize++] = temp;
+			fuckSpawn[fuckSpawnPopulationSize].bits = fuckSpawn1Bits;
+			fuckSpawn[fuckSpawnPopulationSize].fitness = 0.0f
+			fuckSpawnPopulationSize++;
+			fuckSpawn[fuckSpawnPopulationSize].bits = fuckSpawn1Bits;
+			fuckSpawn[fuckSpawnPopulationSize].bits = fuckSpawn1Bits;
+			fuckSpawnPopulationSize++;
+			// struct subject temp;
+			// temp.bits = fuckSpawn1Bits;
+			// temp.fitness = 0.0f;
+			// fuckSpawn[fuckSpawnPopulationSize++] = temp;
+			// temp.bits = fuckSpawn2Bits;
+			// fuckSpawn[fuckSpawnPopulationSize++] = temp;
 		}
 		
 		for(i = 0; i < populationSize; i++)
@@ -121,7 +129,7 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-int	binToDec(int bits[])
+int	BinToDec(int bits[])
 {
 	int val = 0;
 	int valueToAdd = 1;
@@ -188,7 +196,7 @@ int ParseBits(int bits[], int* buffer)
 	return counterBuffer;
 }
 	
-float assignFitness(int bits[], float target)
+float AssignFitness(int bits[], float target)
 {
 	//holds decimal values of gene sequence
 	int buffer[(int)(BITLENGTH / GENELENGTH)];
@@ -240,59 +248,57 @@ float assignFitness(int bits[], float target)
 		return 1/(float)fabs((double)(target - result));
 	//	return result;
 }
-void PrintChromo(int bits[])
-{	
-	//holds decimal values of gene sequence
-	int buffer[(int)(BITLENGTH / GENELENGTH)];
-	
-	//parse the bit string
-	int num_elements = ParseBits(bits, buffer);
-	int p;
-	for ( p=0; p<num_elements; p++)
-  {
-		PrintGeneSymbol(buffer[p]);
-  }
 
-	return;
+void PrintChromo(int bits[])
+{
+	int buffer[(int)(BITLENGTH / GENELENGTH)];
+	int numberOfElements = ParseBits(bits, buffer);
+	int p;
+	for(p = 0; p < numberOfElements; p++)
+	{
+		PrintGeneSymbol(buffer[p]);
+	}
 }
 
 void PrintGeneSymbol(int val)
 {
-	if (val < 10 )
-		
-		printf("%d", val);
-	
-	else
+	switch(val)
 	{
-		switch (val)
-		{
-			
-		case 10:
-			
-			printf("+");
-			break;
-			
-		case 11:
-			
-			printf("-");
-			break;
-			
-		case 12:
-			
-			printf("*");
-			break;
-			
-		case 13:
-			
-			printf("/");
-			break;
-			
-		}//end switch
-}
-return;
+	case 10:
+		printf("+");
+		break;
+	case 11:
+		printf("-");
+		break;
+	case 12:
+		printf("*");
+		break;
+	case 13:
+		printf("/");
+		break;
+	default:
+		printf("%d", val);
+		break;
+	}
 }		
 
-void makeMeABaby(float totalFitness, struct subject *test, int & meh)
+void Crossover(int & first, int & second)
+{
+	double random = (double)rand() / (double)RAND_MAX;
+	if(random < CROSSOVERRATE)
+	{
+		random = (double)rand() / (double)RAND_MAX;
+		int crossOver = (int)(random * BITLENGTH);
+		int i = 0;
+		for(i = crossOver; i < BITLENGTH; i++)
+		{
+			int temp = second[i];
+			first[i] = second[i];
+			second[i] = temp;
+		}
+	}
+}
+void MakeMeABaby(float totalFitness, struct subject *test, int & meh)
 {
 	int i = 0;
 	for(i = 0; i < BITLENGTH; i++)
