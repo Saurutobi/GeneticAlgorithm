@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
 		
 		if(howLongThisShitTook > MAXGENERATIONS)
 		{
-			printf("Did not find a solution in max allowable runs");
+			printf("Did not find a solution in max allowable runs\n");
 			solutionFound = 1;
 		}
 	}
