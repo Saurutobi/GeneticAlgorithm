@@ -4,6 +4,7 @@
 #include <math.h>
 #include <time.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 
 #define BITLENGTH 20
@@ -17,6 +18,9 @@ struct subject
 	int bits[BITLENGTH];
 	float fitness;
 };
+
+struct timeval start;
+struct timeval end;
 
 float AssignFitness(int [], float);
 int BinToDec(int[]);
@@ -37,6 +41,8 @@ int main(int argc, char *argv[])
 	long int i = 0;
 	int j = 0;
 	struct subject *sheep = (struct subject*)malloc(sizeof(struct subject) * populationSize);
+	
+	gettimeofday(&start, NULL);
 	
 	//make the Adam&Eve generation
 	for(i = 0; i < populationSize; i++)
@@ -110,6 +116,7 @@ int main(int argc, char *argv[])
 				sheep[fuckSpawnPopulationSize].bits[i] = fuckSpawn1Bits[i];
 				sheep[fuckSpawnPopulationSize + 1].bits[i] = fuckSpawn1Bits[i];
 			}
+			
 			fuckSpawn[fuckSpawnPopulationSize].fitness = 0.0f;
 			fuckSpawn[fuckSpawnPopulationSize + 1].fitness = 0.0f;
 			fuckSpawnPopulationSize += 2;
@@ -129,6 +136,10 @@ int main(int argc, char *argv[])
 			solutionFound = 1;
 		}
 	}
+	
+	gettimeofday(&end, NULL);
+	int timeran = (((end.tv_sec - start.tv_sec) * 1000000) +(end.tv_usec - start.tv_usec));
+	printf("Time Ran in Nano Seconds = %d\n", timeran);
 	
 	return 0;
 }
