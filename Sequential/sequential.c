@@ -109,9 +109,22 @@ int main(int argc, char *argv[])
 			{
 				fuckSpawn[fuckSpawnPopulationSize].bits[i] = fuckSpawn1Bits[i];
 				fuckSpawn[fuckSpawnPopulationSize + 1].bits[i] = fuckSpawn1Bits[i];
-				printf(" sheep1 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
-				printf(" sheep2 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
+				//printf(" sheep1 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
+				//printf(" sheep2 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
 			}
+			
+			
+			printf("\n fuckspawn1: ");
+			for(j = 0; j < BITLENGTH; j++)
+		{
+			printf("%d", fuckSpawn[fuckSpawnPopulationSize].bits[j]);
+		}
+		printf("\n fuckspawn2: ");
+		for(j = 0; j < BITLENGTH; j++)
+		{
+			printf("%d", fuckSpawn[fuckSpawnPopulationSize+1].bits[j]);
+		}
+		
 			
 			fuckSpawn[fuckSpawnPopulationSize].fitness = 0.0f;
 			fuckSpawn[fuckSpawnPopulationSize + 1].fitness = 0.0f;
@@ -125,7 +138,7 @@ int main(int argc, char *argv[])
 		
 		
 		howLongThisShitTook++;
-		printf("New Generation done! Now on Generation %d\n", howLongThisShitTook);
+		printf("\n New Generation done! Now on Generation %d\n", howLongThisShitTook);
 		
 		if(howLongThisShitTook > MAXGENERATIONS)
 		{
@@ -328,13 +341,19 @@ void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int *
 		if(currentFitness >= slice)
 		{
 			int j;
+			printf("\n test[]");
 			for(j = 0; j < BITLENGTH; j++)
 			{
-				printf(" test[] %d", test[i].bits[j]);
-				printf("\n");
+				printf("%d", test[i].bits[j]);
+				
 				meh[j] = test[i].bits[j];
 			}
+			printf("\n");
 			
+		}
+		else
+		{
+			printf("\n test[] same \n");
 		}
 	}
 }
