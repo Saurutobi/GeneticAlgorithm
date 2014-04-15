@@ -20,10 +20,10 @@ struct subject
 
 float AssignFitness(int [], float);
 int BinToDec(int[]);
-int ParseBits(int[] , int* );
-void CrossOver(int[], int[]);
-void MakeMeABaby(float, double, struct subject *, int[]);
-void Mutate(int[]);
+int ParseBits(int[] , int *);
+void Crossover(int *, int *);
+void MakeMeABaby(float, double, struct subject *, int *);
+void Mutate(int *);
 void PrintChromo(int[]);
 void PrintGeneSymbol(int);
 
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 		{
 			sheep[i].fitness = AssignFitness(sheep[i].bits, target);
 			printf("\n subject %d with fitness %f\n", i, sheep[i].fitness);
-			PrintChromo(sheep[i].bits);
+			//PrintChromo(sheep[i].bits);
 			totalFitness += sheep[i].fitness;
 			printf(" Total Fitness%f\n", totalFitness);
 		}
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 		{
 			if(sheep[i].fitness == 999.0f)
 			{
-				printf("It's been found. It took %d generations to find", howLongThisShitTook);
+				printf("It's been found. It took %d generations to find\n", howLongThisShitTook);
 				solutionFound = 1;
 				break;
 			}
@@ -88,15 +88,16 @@ int main(int argc, char *argv[])
 		int fuckSpawn1Bits[BITLENGTH];
 		int fuckSpawn2Bits[BITLENGTH];
 		
+		printf("Creating New Generation\n");
 		while(fuckSpawnPopulationSize < populationSize)
 		{
 			MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn1Bits);
 			MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn2Bits);
 			
-			//crossover(fuckSpawn1Bits, fuckSpawn2Bits);
+			Crossover(fuckSpawn1Bits, fuckSpawn2Bits);
 			
-			//Mutate(fuckSpawn1Bits);
-			//Mutate(fuckSpawn2Bits);
+			Mutate(fuckSpawn1Bits);
+			Mutate(fuckSpawn2Bits);
 			
 			for(i = 0; i < BITLENGTH; i++)
 			{
@@ -106,12 +107,6 @@ int main(int argc, char *argv[])
 			fuckSpawn[fuckSpawnPopulationSize].fitness = 0.0f;
 			fuckSpawn[fuckSpawnPopulationSize + 1].fitness = 0.0f;
 			fuckSpawnPopulationSize += 2;
-			// struct subject temp;
-			// temp.bits = fuckSpawn1Bits;
-			// temp.fitness = 0.0f;
-			// fuckSpawn[fuckSpawnPopulationSize++] = temp;
-			// temp.bits = fuckSpawn2Bits;
-			// fuckSpawn[fuckSpawnPopulationSize++] = temp;
 		}
 		
 		for(i = 0; i < populationSize; i++)
@@ -120,6 +115,7 @@ int main(int argc, char *argv[])
 		}
 		
 		howLongThisShitTook++;
+		printf("New Generation done! Now on Generation %d\n", howLongThisShitTook);
 		
 		if(howLongThisShitTook > MAXGENERATIONS)
 		{
@@ -154,10 +150,10 @@ int ParseBits(int bits[], int* buffer)
 	int counterBuffer = 0;
 	int operator = 1;
 	int currentGene = 0;
-	int l = 0;
-	for(l = 0; l < BITLENGTH; l += GENELENGTH)
+	int i = 0;
+	for(i = 0; i < BITLENGTH; i += GENELENGTH)
 	{
-		currentGene = BinToDec(&bits[l]);
+		currentGene = BinToDec(&bits[i]);
 		printf("this gene %d \n", currentGene);
 		if(operator == 1)
 		{
@@ -187,12 +183,11 @@ int ParseBits(int bits[], int* buffer)
 		}
 	}
 	
-	int m;
-	for(m = 0; m < counterBuffer; m++)
+	for(i = 0; i < counterBuffer; i++)
 	{
-		if((buffer[m] == 13) && (buffer[m + 1] == 0))
+		if((buffer[i] == 13) && (buffer[i + 1] == 0))
 		{
-			buffer[m] = 10;
+			buffer[i] = 10;
 		}
 	}
 
@@ -271,7 +266,7 @@ void PrintGeneSymbol(int val)
 	}
 }		
 
-void Crossover(int first[], int second[])
+void Crossover(int * first, int * second)
 {
 	double random = (double)rand() / (double)RAND_MAX;
 	if(random < CROSSOVERRATE)
@@ -288,7 +283,7 @@ void Crossover(int first[], int second[])
 	}
 }
 
-void Mutate(int doMe[])
+void Mutate(int * doMe)
 {
 	int i = 0;
 	for(i = 0; i < BITLENGTH; i++)
@@ -305,7 +300,7 @@ void Mutate(int doMe[])
 	}
 }
 
-void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int meh[])
+void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int * meh)
 {
 	double random = (double)rand() / (double)(RAND_MAX - 1);
 	float slice = (float)(random * totalFitness);
