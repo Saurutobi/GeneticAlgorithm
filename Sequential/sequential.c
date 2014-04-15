@@ -9,6 +9,7 @@
 #define GENELENGTH 4
 #define MAXGENERATIONS 400
 #define CROSSOVERRATE 0.7
+#define MUTATIONRATE 0.001
 
 struct subject
 {
@@ -21,6 +22,7 @@ int BinToDec(int bits[]);
 int ParseBits(int bits[], int* buffer);
 void CrossOver(int &, int &);
 void MakeMeABaby(float, struct subject *, int &);
+void Mutate(int &);
 void PrintChromo(int bits[]);
 void PrintGeneSymbol(int val);
 
@@ -90,10 +92,10 @@ int main(int argc, char *argv[])
 			MakeMeABaby(totalFitness, sheep, fuckSpawn1Bits);
 			MakeMeABaby(totalFitness, sheep, fuckSpawn2Bits);
 			
-			//crossover(1,2)
+			//crossover(fuckSpawn1Bits, fuckSpawn2Bits);
 			
-			//mutate 1
-			//mutate 2
+			//Mutate(fuckSpawn1Bits);
+			//Mutate(fuckSpawn2Bits);
 			
 			fuckSpawn[fuckSpawnPopulationSize].bits = fuckSpawn1Bits;
 			fuckSpawn[fuckSpawnPopulationSize].fitness = 0.0f
@@ -282,7 +284,7 @@ void PrintGeneSymbol(int val)
 	}
 }		
 
-void Crossover(int & first, int & second)
+void Crossover(int &first, int &second)
 {
 	double random = (double)rand() / (double)RAND_MAX;
 	if(random < CROSSOVERRATE)
@@ -298,7 +300,25 @@ void Crossover(int & first, int & second)
 		}
 	}
 }
-void MakeMeABaby(float totalFitness, struct subject *test, int & meh)
+
+void Mutate(int &doMe)
+{
+	int i = 0;
+	for(i = 0; i < BITLENGTH; i++)
+	{
+		double random = (double)rand() / (double)RAND_MAX;
+		if(random < MUTATIONRATE && doMe[i] = 0)
+		{
+			doMe[i] = 1;
+		}
+		else if(random < MUTATIONRATE && doMe[i] = 1;
+		{
+			doMe[i] = 0;
+		}
+	}
+}
+
+void MakeMeABaby(float totalFitness, struct subject *test, int &meh)
 {
 	int i = 0;
 	for(i = 0; i < BITLENGTH; i++)
