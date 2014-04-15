@@ -97,14 +97,14 @@ int main(int argc, char *argv[])
 		printf("Creating New Generation\n");
 		while(fuckSpawnPopulationSize < populationSize)
 		{
-			MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn1Bits);
-			MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn2Bits);
+			MakeMeABaby(totalFitness, populationSize, sheep, &fuckSpawn1Bits);
+			MakeMeABaby(totalFitness, populationSize, sheep, &fuckSpawn2Bits);
 			
 			for(j = 0; j < BITLENGTH; j++)
-		{
-			printf(" fuckspawn1 %f \n", fuckSpawn1Bits[j]);
-			printf(" fuckspawn2 %f \n", fuckSpawn2Bits[j]);
-		}
+			{
+				printf(" fuckspawn1 %f \n", fuckSpawn1Bits[j]);
+				printf(" fuckspawn2 %f \n", fuckSpawn2Bits[j]);
+			}
 			
 			Crossover(fuckSpawn1Bits, fuckSpawn2Bits);
 			
@@ -335,7 +335,7 @@ void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int *
 			{
 				printf(" test[] %d", test[i].bits[j]);
 				printf("\n");
-				meh[j] = test[i].bits[j];
+				*meh[j] = test[i].bits[j];
 			}
 			
 		}
