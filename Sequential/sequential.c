@@ -22,7 +22,7 @@ float AssignFitness(int [], float);
 int BinToDec(int[]);
 int ParseBits(int[] , int* );
 void CrossOver(int[], int[]);
-void MakeMeABaby(float, struct subject *, int[]);
+void MakeMeABaby(float, double, struct subject *, int[]);
 void Mutate(int[]);
 void PrintChromo(int[]);
 void PrintGeneSymbol(int);
@@ -90,8 +90,8 @@ int main(int argc, char *argv[])
 		
 		while(fuckSpawnPopulationSize < populationSize)
 		{
-			MakeMeABaby(totalFitness, sheep, fuckSpawn1Bits);
-			MakeMeABaby(totalFitness, sheep, fuckSpawn2Bits);
+			MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn1Bits);
+			MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn2Bits);
 			
 			//crossover(fuckSpawn1Bits, fuckSpawn2Bits);
 			
@@ -305,12 +305,21 @@ void Mutate(int doMe[])
 	}
 }
 
-void MakeMeABaby(float totalFitness, struct subject *test, int meh[])
+void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int meh[])
 {
+	double random = (double)rand() / (double)RAND_MAX;
+	float slice = (float)(random * totalFitness);
+	float currentFitness = 0.0f;
+	
 	int i = 0;
-	for(i = 0; i < BITLENGTH; i++)
+	for(i = 0; i < popSize; i++)
 	{
-		meh[i] = 1;
+		currentFitness += test[i].fitness;
+		
+		if(currentFitness >= slice)
+		{
+			meh = test[i].bits;
+		}
 	}
 }
 
