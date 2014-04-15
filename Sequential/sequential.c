@@ -4,9 +4,9 @@
 #include <math.h>
 #include <time.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
-#define BITLENGTH 20
+
+#define BITLENGTH 300
 #define GENELENGTH 4
 #define MAXGENERATIONS 400
 
@@ -134,7 +134,7 @@ int	BinToDec(int bits[])
 	for ( k = GENELENGTH-1; k >= 0; k--)
 	{
 		
-	printf("k=%d ", bits[k]);
+	
 		if (bits[k] == 1)
 
 			val += value_to_add;
@@ -167,7 +167,6 @@ int ParseBits(int bits[], int* buffer)
 	{
 		//convert the current gene to decimal
 		this_gene = BinToDec(&bits[l]);
-		printf("this gene %d \n", this_gene);
 		//find a gene which represents an operator
 		if (bOperator == 1)
 		{
@@ -211,7 +210,6 @@ int ParseBits(int bits[], int* buffer)
 		
 			buffer[m] = 10;
 	}
-	printf("cBuff %d \n", cBuff);
 	return cBuff;
 	}
 float assignFitness(int bits[], float target)
@@ -220,43 +218,52 @@ float assignFitness(int bits[], float target)
 	int buffer[(int)(BITLENGTH / GENELENGTH)];
 	
 	int num_elements = ParseBits(bits, buffer);
-	printf("new element %d \n",num_elements);
+	
 	// ok, we have a buffer filled with valid values of: operator - number - operator - number..
 	// now we calculate what this represents.
 	float result = 0.0f;
+	
 	int n;
 	for ( n=0; n < num_elements-1; n+=2)
 	{
+		
 		switch (buffer[n])
 		{
+		
 			case 10:
 
 				result += buffer[n+1];
+				
 				break;
 
 			case 11:
 				
 				result -= buffer[n+1];
+				
 				break;
 
 			case 12:
 
 				result *= buffer[n+1];
+				
 				break;
 
 			case 13:
 	
 				result /= buffer[n+1];
+				
 				break;
-
+			default: 
+				
+				break;
+				
 		}//end switch
-
 	}
 
 	// Now we calculate the fitness. First check to see if a solution has been found
 	// and assign an arbitarily high fitness score if this is so.
 
-	printf("\n result %d \n", result); 
+	printf("\n result %f \n", result); 
 	if (result == (float)target)
 
 		return 999.0f;
