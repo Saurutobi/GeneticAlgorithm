@@ -201,64 +201,41 @@ int ParseBits(int bits[], int* buffer)
 	
 float AssignFitness(int bits[], float target)
 {
-	//holds decimal values of gene sequence
 	int buffer[(int)(BITLENGTH / GENELENGTH)];
-	
-	int num_elements = ParseBits(bits, buffer);
-	
-	// ok, we have a buffer filled with valid values of: operator - number - operator - number..
-	// now we calculate what this represents.
+	int numberOfElements = ParseBits(bits, buffer);
 	float result = 0.0f;
 	
-	int n;
-	for ( n=0; n < num_elements-1; n+=2)
+	int i;
+	for(i = 0; i < numberOfElements - 1; i += 2)
 	{
-		
-		switch (buffer[n])
+		switch (buffer[i])
 		{
-		
 			case 10:
-
-				result += buffer[n+1];
-				
+				result += buffer[i + 1];
 				break;
-
 			case 11:
-				
-				result -= buffer[n+1];
-				
+				result -= buffer[i + 1];
 				break;
-
 			case 12:
-
-				result *= buffer[n+1];
-				
+				result *= buffer[i + 1];
 				break;
-
 			case 13:
-	
-				result /= buffer[n+1];
-				
+				result /= buffer[i + 1];
 				break;
-			default: 
-				
+			default:
 				break;
-				
-		}//end switch
+		}
 	}
 
-	// Now we calculate the fitness. First check to see if a solution has been found
-	// and assign an arbitarily high fitness score if this is so.
-
 	printf("\n result %f \n", result); 
-	if (result == (float)target)
-
+	if(result == (float)target)
+	{
 		return 999.0f;
-
+	}
 	else
-
+	{
 		return 1/(float)fabs((double)(target - result));
-	//	return result;
+	}
 }
 
 void PrintChromo(int bits[])
