@@ -94,6 +94,12 @@ int main(int argc, char *argv[])
 			MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn1Bits);
 			MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn2Bits);
 			
+			for(j = 0; j < BITLENGTH; j++)
+		{
+			printf(" fuckspawn1 %f \n", fuckSpawn1Bits[j]);
+			printf(" fuckspawn2 %f \n", fuckSpawn2Bits[j]);
+		}
+			
 			Crossover(fuckSpawn1Bits, fuckSpawn2Bits);
 			
 			Mutate(fuckSpawn1Bits);
@@ -313,7 +319,14 @@ void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int *
 		
 		if(currentFitness >= slice)
 		{
-			meh = test[i].bits;
+			int j;
+			for(j = 0; j < BITLENGTH; j++)
+			{
+				printf(" test[] %d", test[i].bits[j]);
+				printf("\n");
+				meh[j] = test[i].bits[j];
+			}
+			
 		}
 	}
 }
