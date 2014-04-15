@@ -307,7 +307,7 @@ void Mutate(int doMe[])
 
 void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int meh[])
 {
-	double random = (double)rand() / (double)RAND_MAX;
+	double random = (double)rand() / (double)(RAND_MAX - 1);
 	float slice = (float)(random * totalFitness);
 	float currentFitness = 0.0f;
 	
