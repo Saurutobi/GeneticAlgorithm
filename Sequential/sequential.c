@@ -121,28 +121,23 @@ int main(int argc, char *argv[])
 			{
 				fuckSpawn[fuckSpawnPopulationSize].bits[i] = fuckSpawn1Bits[i];
 				fuckSpawn[fuckSpawnPopulationSize + 1].bits[i] = fuckSpawn1Bits[i];
-<<<<<<< HEAD
-				//printf(" sheep1 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
-				//printf(" sheep2 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
-=======
-				if(debug == 0)
-				{
-					printf(" sheep1 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
-					printf(" sheep2 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
-				}
->>>>>>> afea4031c5e37b3076dd8bbbb6163d85ab6cc713
+
+				
+
 			}
 			
-			
-			printf("\n fuckspawn1: ");
+			if(debug == 0)
+			{
+			printf("\n fuckspawn%d: ",fuckSpawnPopulationSize);
 			for(j = 0; j < BITLENGTH; j++)
 		{
 			printf("%d", fuckSpawn[fuckSpawnPopulationSize].bits[j]);
 		}
-		printf("\n fuckspawn2: ");
+		printf("\n fuckspawn%d: ",fuckSpawnPopulationSize+1);
 		for(j = 0; j < BITLENGTH; j++)
 		{
 			printf("%d", fuckSpawn[fuckSpawnPopulationSize+1].bits[j]);
+		}
 		}
 		
 			
@@ -370,22 +365,25 @@ void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int *
 		if(currentFitness >= slice)
 		{
 			int j;
-			printf("\n test[]");
+			if(debug == 0)
+			{
+			printf("\n test[] ");
+			}
 			for(j = 0; j < BITLENGTH; j++)
 			{
-<<<<<<< HEAD
-				printf("%d", test[i].bits[j]);
-				
-=======
+
 				if(debug == 0)
 				{
-					printf(" test[] %d", test[i].bits[j]);
-					printf("\n");
+					printf("%d", test[i].bits[j]);
+					
 				}
->>>>>>> afea4031c5e37b3076dd8bbbb6163d85ab6cc713
+
 				meh[j] = test[i].bits[j];
 			}
+			if(debug == 0)
+			{
 			printf("\n");
+			}
 			
 		}
 		else
