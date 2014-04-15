@@ -13,6 +13,8 @@
 #define CROSSOVERRATE 0.7
 #define MUTATIONRATE 0.001
 
+#define debug 1
+
 struct subject
 {
 	int bits[BITLENGTH];
@@ -52,12 +54,16 @@ int main(int argc, char *argv[])
 			sheep[i].bits[j] = rand() %2;
 		}
 		sheep[i].fitness = 0.0f;
-		printf("subject %d bits = ", i);
-		for(j = 0; j < BITLENGTH; j++)
+		
+		if(debug == 0)
 		{
-			printf("%d", sheep[i].bits[j]);
+			printf("subject %d bits = ", i);
+			for(j = 0; j < BITLENGTH; j++)
+			{
+				printf("%d", sheep[i].bits[j]);
+			}
+			printf(" with fitness %f\n", sheep[i].fitness);
 		}
-		printf(" with fitness %f\n", sheep[i].fitness);
 	}
 	
 	int howLongThisShitTook = 0;
@@ -73,10 +79,16 @@ int main(int argc, char *argv[])
 		for(i = 0; i < populationSize; i++)
 		{
 			sheep[i].fitness = AssignFitness(sheep[i].bits, target);
-			printf("\n subject %d with fitness %f\n", i, sheep[i].fitness);
+			if(debug == 0)
+			{
+				printf("\n subject %d with fitness %f\n", i, sheep[i].fitness);
+			}
 			//PrintChromo(sheep[i].bits);
 			totalFitness += sheep[i].fitness;
-			printf(" Total Fitness%f\n", totalFitness);
+			if(debug == 0)
+			{
+				printf(" Total Fitness%f\n", totalFitness);
+			}
 		}
 	
 		for(i = 0; i < populationSize; i++)
@@ -109,8 +121,16 @@ int main(int argc, char *argv[])
 			{
 				fuckSpawn[fuckSpawnPopulationSize].bits[i] = fuckSpawn1Bits[i];
 				fuckSpawn[fuckSpawnPopulationSize + 1].bits[i] = fuckSpawn1Bits[i];
+<<<<<<< HEAD
 				//printf(" sheep1 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
 				//printf(" sheep2 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
+=======
+				if(debug == 0)
+				{
+					printf(" sheep1 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
+					printf(" sheep2 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
+				}
+>>>>>>> afea4031c5e37b3076dd8bbbb6163d85ab6cc713
 			}
 			
 			
@@ -142,14 +162,14 @@ int main(int argc, char *argv[])
 		
 		if(howLongThisShitTook > MAXGENERATIONS)
 		{
-			printf("Did not find a solution in max allowable runs\n");
+			printf("Did not find a solution in maximum allowable runs\n");
 			solutionFound = 1;
 		}
 	}
 	
 	gettimeofday(&end, NULL);
 	int timeran = (((end.tv_sec - start.tv_sec) * 1000000) +(end.tv_usec - start.tv_usec));
-	printf("Time Ran in Nano Seconds = %d\n", timeran);
+	printf("Completed in %d Nano Seconds\n", timeran);
 	
 	return 0;
 }
@@ -161,8 +181,10 @@ int	BinToDec(int bits[])
 	int k = 0;
 	for(k = GENELENGTH - 1; k >= 0; k--)
 	{
-
-		printf("k=%d ", bits[k]);
+		if(debug == 0)
+		{
+			printf("k=%d ", bits[k]);
+		}
 		if(bits[k] == 1)
 		{
 			val += valueToAdd;
@@ -181,7 +203,10 @@ int ParseBits(int bits[], int* buffer)
 	for(i = 0; i < BITLENGTH; i += GENELENGTH)
 	{
 		currentGene = BinToDec(&bits[i]);
-		printf("this gene %d \n", currentGene);
+		if(debug == 0)
+		{
+			printf("this gene %d \n", currentGene);
+		}
 		if(operator == 1)
 		{
 			if((currentGene < 10) || (currentGene > 13))
@@ -249,7 +274,10 @@ float AssignFitness(int bits[], float target)
 		}
 	}
 
-	printf("\n result %f \n", result); 
+	if(debug == 0)
+	{
+		printf("\n result %f \n", result); 
+	}
 	if(result == (float)target)
 	{
 		return 999.0f;
@@ -262,6 +290,7 @@ float AssignFitness(int bits[], float target)
 
 void PrintChromo(int bits[])
 {
+	printf("I AM PRINTCHROMO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	int buffer[(int)(BITLENGTH / GENELENGTH)];
 	int numberOfElements = ParseBits(bits, buffer);
 	int p;
@@ -344,8 +373,16 @@ void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int *
 			printf("\n test[]");
 			for(j = 0; j < BITLENGTH; j++)
 			{
+<<<<<<< HEAD
 				printf("%d", test[i].bits[j]);
 				
+=======
+				if(debug == 0)
+				{
+					printf(" test[] %d", test[i].bits[j]);
+					printf("\n");
+				}
+>>>>>>> afea4031c5e37b3076dd8bbbb6163d85ab6cc713
 				meh[j] = test[i].bits[j];
 			}
 			printf("\n");
@@ -357,16 +394,3 @@ void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int *
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
