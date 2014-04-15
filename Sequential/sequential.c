@@ -9,7 +9,7 @@
 
 #define BITLENGTH 20
 #define GENELENGTH 4
-#define MAXGENERATIONS 4
+#define MAXGENERATIONS 2
 #define CROSSOVERRATE 0.7
 #define MUTATIONRATE 0.001
 
@@ -97,14 +97,8 @@ int main(int argc, char *argv[])
 		printf("Creating New Generation\n");
 		while(fuckSpawnPopulationSize < populationSize)
 		{
-			MakeMeABaby(totalFitness, populationSize, sheep, &fuckSpawn1Bits);
-			MakeMeABaby(totalFitness, populationSize, sheep, &fuckSpawn2Bits);
-			
-			for(j = 0; j < BITLENGTH; j++)
-			{
-				printf(" fuckspawn1 %f \n", fuckSpawn1Bits[j]);
-				printf(" fuckspawn2 %f \n", fuckSpawn2Bits[j]);
-			}
+			MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn1Bits);
+			MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn2Bits);
 			
 			Crossover(fuckSpawn1Bits, fuckSpawn2Bits);
 			
@@ -113,8 +107,10 @@ int main(int argc, char *argv[])
 			
 			for(i = 0; i < BITLENGTH; i++)
 			{
-				sheep[fuckSpawnPopulationSize].bits[i] = fuckSpawn1Bits[i];
-				sheep[fuckSpawnPopulationSize + 1].bits[i] = fuckSpawn1Bits[i];
+				fuckSpawn[fuckSpawnPopulationSize].bits[i] = fuckSpawn1Bits[i];
+				fuckSpawn[fuckSpawnPopulationSize + 1].bits[i] = fuckSpawn1Bits[i];
+				printf(" sheep1 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
+				printf(" sheep2 %d \n", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
 			}
 			
 			fuckSpawn[fuckSpawnPopulationSize].fitness = 0.0f;
@@ -126,6 +122,7 @@ int main(int argc, char *argv[])
 		{
 			sheep[i] = fuckSpawn[i];
 		}
+		
 		
 		howLongThisShitTook++;
 		printf("New Generation done! Now on Generation %d\n", howLongThisShitTook);
@@ -335,7 +332,7 @@ void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int *
 			{
 				printf(" test[] %d", test[i].bits[j]);
 				printf("\n");
-				*meh[j] = test[i].bits[j];
+				meh[j] = test[i].bits[j];
 			}
 			
 		}
