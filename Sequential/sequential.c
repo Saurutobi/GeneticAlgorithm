@@ -19,13 +19,13 @@ struct subject
 };
 
 float AssignFitness(int [], float);
-int BinToDec(int bits[]);
-int ParseBits(int bits[], int* buffer);
-void CrossOver(int &, int &);
-void MakeMeABaby(float, struct subject *, int &);
-void Mutate(int &);
-void PrintChromo(int bits[]);
-void PrintGeneSymbol(int val);
+int BinToDec(int[]);
+int ParseBits(int[] , int* );
+void CrossOver(int[], int[]);
+void MakeMeABaby(float, struct subject *, int[]);
+void Mutate(int[]);
+void PrintChromo(int[]);
+void PrintGeneSymbol(int);
 
 int main(int argc, char *argv[])
 {
@@ -34,8 +34,8 @@ int main(int argc, char *argv[])
 	float target = (float)atoi(argv[2]);
 	printf("Running with:\n    Population Size = %f\n    Bit Length = %d\n", populationSize, BITLENGTH);
 	
-	int i = 0;
-	int j= 0;
+	long int i = 0;
+	int j = 0;
 	struct subject *sheep = (struct subject*)malloc(sizeof(struct subject) * populationSize);
 	
 	//make the Adam&Eve generation
@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 			}
 		}
 		
-		// unsigned long int fuckSpawnPopulationSize = 0;
+		long fuckSpawnPopulationSize = 0;
 		
 		int fuckSpawn1Bits[BITLENGTH];
 		int fuckSpawn2Bits[BITLENGTH];
@@ -98,12 +98,14 @@ int main(int argc, char *argv[])
 			//Mutate(fuckSpawn1Bits);
 			//Mutate(fuckSpawn2Bits);
 			
-			fuckSpawn[fuckSpawnPopulationSize].bits = fuckSpawn1Bits;
-			fuckSpawn[fuckSpawnPopulationSize].fitness = 0.0f
-			fuckSpawnPopulationSize++;
-			fuckSpawn[fuckSpawnPopulationSize].bits = fuckSpawn1Bits;
-			fuckSpawn[fuckSpawnPopulationSize].bits = fuckSpawn1Bits;
-			fuckSpawnPopulationSize++;
+			for(i = 0; i < BITLENGTH; i++)
+			{
+				sheep[fuckSpawnPopulationSize].bits[i] = fuckSpawn1Bits[i];
+				sheep[fuckSpawnPopulationSize + 1].bits[i] = fuckSpawn1Bits[i];
+			}
+			fuckSpawn[fuckSpawnPopulationSize].fitness = 0.0f;
+			fuckSpawn[fuckSpawnPopulationSize + 1].fitness = 0.0f;
+			fuckSpawnPopulationSize += 2;
 			// struct subject temp;
 			// temp.bits = fuckSpawn1Bits;
 			// temp.fitness = 0.0f;
@@ -116,9 +118,6 @@ int main(int argc, char *argv[])
 		{
 			sheep[i] = fuckSpawn[i];
 		}
-		
-		free(fuckSpawn1Bits);
-		free(fuckSpawn2Bits);
 		
 		howLongThisShitTook++;
 		
@@ -295,7 +294,7 @@ void PrintGeneSymbol(int val)
 	}
 }		
 
-void Crossover(int &first, int &second)
+void Crossover(int first[], int second[])
 {
 	double random = (double)rand() / (double)RAND_MAX;
 	if(random < CROSSOVERRATE)
@@ -312,24 +311,24 @@ void Crossover(int &first, int &second)
 	}
 }
 
-void Mutate(int &doMe)
+void Mutate(int doMe[])
 {
 	int i = 0;
 	for(i = 0; i < BITLENGTH; i++)
 	{
 		double random = (double)rand() / (double)RAND_MAX;
-		if(random < MUTATIONRATE && doMe[i] = 0)
+		if(random < MUTATIONRATE && doMe[i] == 0)
 		{
 			doMe[i] = 1;
 		}
-		else if(random < MUTATIONRATE && doMe[i] = 1;
+		else if(random < MUTATIONRATE && doMe[i] == 1)
 		{
 			doMe[i] = 0;
 		}
 	}
 }
 
-void MakeMeABaby(float totalFitness, struct subject *test, int &meh)
+void MakeMeABaby(float totalFitness, struct subject *test, int meh[])
 {
 	int i = 0;
 	for(i = 0; i < BITLENGTH; i++)
