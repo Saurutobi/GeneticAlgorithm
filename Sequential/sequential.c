@@ -6,9 +6,9 @@
 #include <stdlib.h>
 
 
-#define BITLENGTH 300
+#define BITLENGTH 20
 #define GENELENGTH 4
-#define MAXGENERATIONS 400
+#define MAXGENERATIONS 4
 #define CROSSOVERRATE 0.7
 #define MUTATIONRATE 0.001
 
