@@ -49,19 +49,21 @@ int main(int argc, char *argv[])
 	//make the Adam&Eve generation
 	for(i = 0; i < populationSize; i++)
 	{
-		for(j = 0; j < BITLENGTH; j++)
-		{
-			sheep[i].bits[j] = rand() %2;
-		}
-		sheep[i].fitness = 0.0f;
-		
 		if(debug == 0)
 		{
 			printf("subject %d bits = ", i);
-			for(j = 0; j < BITLENGTH; j++)
+		}
+		for(j = 0; j < BITLENGTH; j++)
+		{
+			sheep[i].bits[j] = rand() %2;
+			if(debug == 0)
 			{
 				printf("%d", sheep[i].bits[j]);
 			}
+		}
+		sheep[i].fitness = 0.0f;
+		if(debug == 0)
+		{
 			printf(" with fitness %f\n", sheep[i].fitness);
 		}
 	}
@@ -83,7 +85,6 @@ int main(int argc, char *argv[])
 			{
 				printf("\n subject %d with fitness %f\n", i, sheep[i].fitness);
 			}
-			//PrintChromo(sheep[i].bits);
 			totalFitness += sheep[i].fitness;
 			if(debug == 0)
 			{
@@ -121,26 +122,21 @@ int main(int argc, char *argv[])
 			{
 				fuckSpawn[fuckSpawnPopulationSize].bits[i] = fuckSpawn1Bits[i];
 				fuckSpawn[fuckSpawnPopulationSize + 1].bits[i] = fuckSpawn1Bits[i];
-
-				
-
 			}
 			
 			if(debug == 0)
 			{
-			printf("\n fuckspawn%d: ",fuckSpawnPopulationSize);
-			for(j = 0; j < BITLENGTH; j++)
-		{
-			printf("%d", fuckSpawn[fuckSpawnPopulationSize].bits[j]);
-		}
-		printf("\n fuckspawn%d: ",fuckSpawnPopulationSize+1);
-		for(j = 0; j < BITLENGTH; j++)
-		{
-			printf("%d", fuckSpawn[fuckSpawnPopulationSize+1].bits[j]);
-		}
-		}
-		
-			
+				printf("\n fuckspawn%d: ",fuckSpawnPopulationSize);
+				for(i = 0; i < BITLENGTH; i++)
+				{
+					printf("%d", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
+				}
+				printf("\n fuckspawn%d: ",fuckSpawnPopulationSize + 1);
+				for(i = 0; i < BITLENGTH; i++)
+				{
+					printf("%d", fuckSpawn[fuckSpawnPopulationSize + 1].bits[i]);
+				}
+			}
 			fuckSpawn[fuckSpawnPopulationSize].fitness = 0.0f;
 			fuckSpawn[fuckSpawnPopulationSize + 1].fitness = 0.0f;
 			fuckSpawnPopulationSize += 2;
@@ -361,21 +357,18 @@ void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int *
 	for(i = 0; i < popSize; i++)
 	{
 		currentFitness += test[i].fitness;
-		
 		if(currentFitness >= slice)
 		{
 			int j;
 			if(debug == 0)
 			{
-			printf("\n test[] ");
+				printf("\n test[] ");
 			}
 			for(j = 0; j < BITLENGTH; j++)
 			{
-
 				if(debug == 0)
 				{
 					printf("%d", test[i].bits[j]);
-					
 				}
 
 				meh[j] = test[i].bits[j];
@@ -384,7 +377,6 @@ void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int *
 			{
 			printf("\n");
 			}
-			
 		}
 		else
 		{
