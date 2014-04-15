@@ -106,50 +106,52 @@ int main(int argc, char *argv[])
 		
 		int fuckSpawn1Bits[BITLENGTH];
 		int fuckSpawn2Bits[BITLENGTH];
-		
-		printf("Creating New Generation\n");
-		while(fuckSpawnPopulationSize < populationSize)
+		if(solutionFound != 1)
 		{
-			MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn1Bits);
-			MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn2Bits);
-			
-			Crossover(fuckSpawn1Bits, fuckSpawn2Bits);
-			
-			Mutate(fuckSpawn1Bits);
-			Mutate(fuckSpawn2Bits);
-			
-			for(i = 0; i < BITLENGTH; i++)
+			printf("Creating New Generation\n");
+			while(fuckSpawnPopulationSize < populationSize)
 			{
-				fuckSpawn[fuckSpawnPopulationSize].bits[i] = fuckSpawn1Bits[i];
-				fuckSpawn[fuckSpawnPopulationSize + 1].bits[i] = fuckSpawn1Bits[i];
-			}
+				MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn1Bits);
+				MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn2Bits);
+				
+				Crossover(fuckSpawn1Bits, fuckSpawn2Bits);
+				
+				Mutate(fuckSpawn1Bits);
+				Mutate(fuckSpawn2Bits);
 			
-			if(debug == 0)
-			{
-				printf("\n fuckspawn%d: ",fuckSpawnPopulationSize);
 				for(i = 0; i < BITLENGTH; i++)
 				{
-					printf("%d", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
+					fuckSpawn[fuckSpawnPopulationSize].bits[i] = fuckSpawn1Bits[i];
+					fuckSpawn[fuckSpawnPopulationSize + 1].bits[i] = fuckSpawn2Bits[i];
 				}
-				printf("\n fuckspawn%d: ",fuckSpawnPopulationSize + 1);
-				for(i = 0; i < BITLENGTH; i++)
+				
+				if(debug == 0)
 				{
-					printf("%d", fuckSpawn[fuckSpawnPopulationSize + 1].bits[i]);
+					printf("fuckspawn%d: ", fuckSpawnPopulationSize);
+					for(i = 0; i < BITLENGTH; i++)
+					{
+						printf("%d", fuckSpawn[fuckSpawnPopulationSize].bits[i]);
+					}
+					printf("\nfuckspawn%d: ",fuckSpawnPopulationSize + 1);
+					for(i = 0; i < BITLENGTH; i++)
+					{
+						printf("%d", fuckSpawn[fuckSpawnPopulationSize + 1].bits[i]);
+					}
+					printf("\n");
 				}
+				fuckSpawn[fuckSpawnPopulationSize].fitness = 0.0f;
+				fuckSpawn[fuckSpawnPopulationSize + 1].fitness = 0.0f;
+				fuckSpawnPopulationSize += 2;
 			}
-			fuckSpawn[fuckSpawnPopulationSize].fitness = 0.0f;
-			fuckSpawn[fuckSpawnPopulationSize + 1].fitness = 0.0f;
-			fuckSpawnPopulationSize += 2;
+			
+			for(i = 0; i < populationSize; i++)
+			{
+				sheep[i] = fuckSpawn[i];
+			}
+			
+			howLongThisShitTook++;
+			printf("\n New Generation done! Now on Generation %d\n", howLongThisShitTook);
 		}
-		
-		for(i = 0; i < populationSize; i++)
-		{
-			sheep[i] = fuckSpawn[i];
-		}
-		
-		
-		howLongThisShitTook++;
-		printf("\n New Generation done! Now on Generation %d\n", howLongThisShitTook);
 		
 		if(howLongThisShitTook > MAXGENERATIONS)
 		{
@@ -362,7 +364,7 @@ void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int *
 			int j;
 			if(debug == 0)
 			{
-				printf("\n test[] ");
+				printf("\nfit parent found\n");
 			}
 			for(j = 0; j < BITLENGTH; j++)
 			{
@@ -370,17 +372,20 @@ void MakeMeABaby(float totalFitness, double popSize, struct subject *test, int *
 				{
 					printf("%d", test[i].bits[j]);
 				}
-
 				meh[j] = test[i].bits[j];
 			}
 			if(debug == 0)
 			{
-			printf("\n");
+				printf("\n");
 			}
+			break;
 		}
 		else
 		{
-			printf("\n test[] same \n");
+			if(debug == 0)
+			{
+				printf(" %dUnfit Parent found", i);
+			}
 		}
 	}
 }
