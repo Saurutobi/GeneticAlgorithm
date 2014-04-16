@@ -13,7 +13,7 @@
 #define CROSSOVERRATE 0.7
 #define MUTATIONRATE 0.001
 
-#define debug 1
+#define debug 0
 
 struct subject
 {
@@ -325,7 +325,7 @@ void Crossover(int * first, int * second)
 		int i = 0;
 		for(i = crossOver; i < BITLENGTH; i++)
 		{
-			int temp = second[i];
+			int temp = first[i];
 			first[i] = second[i];
 			second[i] = temp;
 		}
