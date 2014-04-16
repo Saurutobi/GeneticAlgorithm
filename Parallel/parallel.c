@@ -5,6 +5,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <omp.h>
 
 
 #define BITLENGTH 20
@@ -78,6 +79,7 @@ int main(int argc, char *argv[])
 	{
 		float totalFitness = 0.0f;
 		
+#		pragma omp parallel for
 		for(i = 0; i < populationSize; i++)
 		{
 			sheep[i].fitness = AssignFitness(sheep[i].bits, target);
@@ -91,12 +93,14 @@ int main(int argc, char *argv[])
 				printf(" Total Fitness%f\n", totalFitness);
 			}
 		}
-	
+
+#		pragma omp parallel for
 		for(i = 0; i < populationSize; i++)
 		{
 			if(sheep[i].fitness == 999.0f)
 			{
 				printf("It's been found. It took %d generations to find\n", howLongThisShitTook);
+#				pragma omp atomic
 				solutionFound = 1;
 				break;
 			}
@@ -104,13 +108,16 @@ int main(int argc, char *argv[])
 		
 		long fuckSpawnPopulationSize = 0;
 		
-		int fuckSpawn1Bits[BITLENGTH];
-		int fuckSpawn2Bits[BITLENGTH];
 		if(solutionFound != 1)
 		{
 			printf("Creating New Generation\n");
-			while(fuckSpawnPopulationSize < populationSize)
+			
+#			pragma omp parallel for
+			for(fuckSpawnPopulationSize = 0; fuckSpawnPopulationSize < populationSize; fuckSpawnPopulationSize += 2)
 			{
+				int fuckSpawn1Bits[BITLENGTH];
+				int fuckSpawn2Bits[BITLENGTH];
+				
 				MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn1Bits);
 				MakeMeABaby(totalFitness, populationSize, sheep, fuckSpawn2Bits);
 				
@@ -141,9 +148,9 @@ int main(int argc, char *argv[])
 				}
 				fuckSpawn[fuckSpawnPopulationSize].fitness = 0.0f;
 				fuckSpawn[fuckSpawnPopulationSize + 1].fitness = 0.0f;
-				fuckSpawnPopulationSize += 2;
 			}
 			
+#			pragma omp parallel for
 			for(i = 0; i < populationSize; i++)
 			{
 				sheep[i] = fuckSpawn[i];

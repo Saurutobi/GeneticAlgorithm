@@ -1,0 +1,55 @@
+Running with:
+    Population Size = 10
+    Bit Length = 20
+Creating New Generation
+New Generation done! Now on Generation 1
+Creating New Generation
+New Generation done! Now on Generation 2
+Creating New Generation
+New Generation done! Now on Generation 3
+Did not find a solution in maximum allowable runs
+Completed in 35 Nano Seconds
+Running with:
+    Population Size = 100
+    Bit Length = 20
+Creating New Generation
+New Generation done! Now on Generation 1
+Creating New Generation
+New Generation done! Now on Generation 2
+Creating New Generation
+New Generation done! Now on Generation 3
+Did not find a solution in maximum allowable runs
+Completed in 351 Nano Seconds
+Running with:
+    Population Size = 1000
+    Bit Length = 20
+Creating New Generation
+New Generation done! Now on Generation 1
+Creating New Generation
+New Generation done! Now on Generation 2
+Creating New Generation
+New Generation done! Now on Generation 3
+Did not find a solution in maximum allowable runs
+Completed in 11250 Nano Seconds
+Running with:
+    Population Size = 10000
+    Bit Length = 20
+Creating New Generation
+New Generation done! Now on Generation 1
+Creating New Generation
+New Generation done! Now on Generation 2
+Creating New Generation
+New Generation done! Now on Generation 3
+Did not find a solution in maximum allowable runs
+Completed in 974163 Nano Seconds
+Running with:
+    Population Size = 100000
+    Bit Length = 20
+Creating New Generation
+New Generation done! Now on Generation 1
+Creating New Generation
+New Generation done! Now on Generation 2
+Creating New Generation
+New Generation done! Now on Generation 3
+Did not find a solution in maximum allowable runs
+Completed in 95233035 Nano Seconds

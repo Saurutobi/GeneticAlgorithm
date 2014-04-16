@@ -1,0 +1,71 @@
+Running with:
+    Population Size = 10.000000
+    Bit Length = 20
+Creating New Generation
+
+ New Generation done! Now on Generation 1
+Creating New Generation
+
+ New Generation done! Now on Generation 2
+Creating New Generation
+
+ New Generation done! Now on Generation 3
+Did not find a solution in maximum allowable runs
+Completed in 33 Nano Seconds
+Running with:
+    Population Size = 100.000000
+    Bit Length = 20
+Creating New Generation
+
+ New Generation done! Now on Generation 1
+Creating New Generation
+
+ New Generation done! Now on Generation 2
+Creating New Generation
+
+ New Generation done! Now on Generation 3
+Did not find a solution in maximum allowable runs
+Completed in 348 Nano Seconds
+Running with:
+    Population Size = 1000.000000
+    Bit Length = 20
+Creating New Generation
+
+ New Generation done! Now on Generation 1
+Creating New Generation
+
+ New Generation done! Now on Generation 2
+Creating New Generation
+
+ New Generation done! Now on Generation 3
+Did not find a solution in maximum allowable runs
+Completed in 11109 Nano Seconds
+Running with:
+    Population Size = 10000.000000
+    Bit Length = 20
+Creating New Generation
+
+ New Generation done! Now on Generation 1
+Creating New Generation
+
+ New Generation done! Now on Generation 2
+Creating New Generation
+
+ New Generation done! Now on Generation 3
+Did not find a solution in maximum allowable runs
+Completed in 977719 Nano Seconds
+Running with:
+    Population Size = 100000.000000
+    Bit Length = 20
+Creating New Generation
+
+ New Generation done! Now on Generation 1
+Creating New Generation
+
+ New Generation done! Now on Generation 2
+Creating New Generation
+
+ New Generation done! Now on Generation 3
+Did not find a solution in maximum allowable runs
+Completed in 95578030 Nano Seconds
+=>> PBS: job killed: walltime 3624 exceeded limit 3600

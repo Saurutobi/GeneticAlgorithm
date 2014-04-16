@@ -1,5 +1,4 @@
 #Genetic Algorithm
-
 #PBS -l nodes=1:ppn=16
 #PBS -l mem=100gb
 #PBS -j oe
@@ -12,4 +11,3 @@ cd ~
 ./GAPar 1000 200
 ./GAPar 10000 200
 ./GAPar 100000 200
-./GAPar 1000000 200
